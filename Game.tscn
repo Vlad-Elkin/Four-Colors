@@ -1,0 +1,150 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://DrawingPanel.gd" type="Script" id=1]
+[ext_resource path="res://Control.gd" type="Script" id=2]
+[ext_resource path="res://Sprites.png" type="Texture" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 1, 1, 1, 1 )
+
+[node name="Game" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="TLPos" type="Position2D" parent="."]
+position = Vector2( 256, 0 )
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 0.2
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="Player1" type="Panel" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 0.25
+
+[node name="Color1" type="Button" parent="Control/Player1"]
+anchor_right = 0.5
+anchor_bottom = 1.0
+toggle_mode = true
+
+[node name="Sprite" type="Sprite" parent="Control/Player1/Color1"]
+scale = Vector2( 0.898438, 0.898438 )
+texture = ExtResource( 3 )
+centered = false
+hframes = 4
+vframes = 2
+frame = 2
+
+[node name="Color2" type="Button" parent="Control/Player1"]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+toggle_mode = true
+
+[node name="Sprite" type="Sprite" parent="Control/Player1/Color2"]
+scale = Vector2( 0.898, 0.898 )
+texture = ExtResource( 3 )
+centered = false
+hframes = 4
+vframes = 2
+frame = 3
+
+[node name="Tools" type="Panel" parent="Control"]
+anchor_top = 0.25
+anchor_right = 1.0
+anchor_bottom = 0.75
+
+[node name="Pencil" type="Button" parent="Control/Tools"]
+anchor_right = 0.5
+anchor_bottom = 0.5
+toggle_mode = true
+
+[node name="Sprite" type="Sprite" parent="Control/Tools/Pencil"]
+scale = Vector2( 0.898, 0.898 )
+texture = ExtResource( 3 )
+centered = false
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Bucket" type="Button" parent="Control/Tools"]
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+toggle_mode = true
+
+[node name="Sprite" type="Sprite" parent="Control/Tools/Bucket"]
+scale = Vector2( 0.898, 0.898 )
+texture = ExtResource( 3 )
+centered = false
+hframes = 4
+vframes = 2
+
+[node name="Change" type="Button" parent="Control/Tools"]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+
+[node name="Sprite" type="Sprite" parent="Control/Tools/Change"]
+scale = Vector2( 0.898, 0.898 )
+texture = ExtResource( 3 )
+centered = false
+hframes = 4
+vframes = 2
+frame = 4
+
+[node name="Clear" type="Button" parent="Control/Tools"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Sprite" type="Sprite" parent="Control/Tools/Clear"]
+scale = Vector2( 0.898, 0.898 )
+texture = ExtResource( 3 )
+centered = false
+hframes = 4
+vframes = 2
+frame = 5
+
+[node name="Player2" type="Panel" parent="Control"]
+anchor_top = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Color1" type="Button" parent="Control/Player2"]
+anchor_right = 0.5
+anchor_bottom = 1.0
+toggle_mode = true
+
+[node name="Sprite" type="Sprite" parent="Control/Player2/Color1"]
+texture = ExtResource( 3 )
+centered = false
+hframes = 4
+vframes = 2
+frame = 6
+
+[node name="Color2" type="Button" parent="Control/Player2"]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+toggle_mode = true
+
+[node name="Sprite" type="Sprite" parent="Control/Player2/Color2"]
+texture = ExtResource( 3 )
+centered = false
+hframes = 4
+vframes = 2
+frame = 7
+
+[node name="DrawingPanel" type="Control" parent="."]
+anchor_left = 0.2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
