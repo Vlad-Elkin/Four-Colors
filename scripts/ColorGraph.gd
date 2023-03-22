@@ -21,14 +21,15 @@ func find_edges():
 					var exit_flag = false
 					var a = nodes[j]
 					var b = nodes[i]
-					for k in a["border"]:
-						if exit_flag: break
-						for l in b["border"]:
-							var dist = k.distance_to(l)
-							if dist <= _brush_size:
-								edges.append([a["color"],b["color"]])
-								exit_flag = true
-								break
+					if a != null and b != null:
+						for k in a["border"]:
+							if exit_flag: break
+							for l in b["border"]:
+								var dist = k.distance_to(l)
+								if dist <= _brush_size:
+									edges.append([a["color"],b["color"]])
+									exit_flag = true
+									break
 
 func check_edges():
 	for edge in edges:
