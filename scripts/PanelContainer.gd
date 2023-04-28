@@ -5,7 +5,7 @@ onready var CanvasPanel = _parent.get_node(@"CanvasPanel")
 onready var popup = _parent.get_node(@"Popup")
 onready var popupLabel = popup.get_node(@"Label")
 onready var popupPlayer = popup.get_node(@"Player")
-onready var restart = popup.get_node("Restart")
+onready var popupRestart = popup.get_node("Restart")
 onready var P1C1 = $Player1/Color1
 onready var P1C2 = $Player1/Color2
 onready var P2C1 = $Player2/Color1
@@ -13,6 +13,7 @@ onready var P2C2 = $Player2/Color2
 onready var pencil = $Tools/Line
 onready var bucket = $Tools/Fill
 onready var paint = $Tools/Fill/Bucket/Paint
+onready var restart = $Tools/Restart
 enum PlayerQuery{
 	Player1 = 1,Player2 = 2
 }
@@ -35,6 +36,7 @@ func _ready():
 	pencil.connect("pressed",self,"handle",["Tool",Tools.Pencil])
 	bucket.connect("pressed",self,"handle",["Tool",Tools.Bucket])
 	restart.connect("pressed",self,"handle",["Restart"])
+	popupRestart.connect("pressed",self,"handle",["Restart"])
 
 func handle(mode,value = null):
 	match mode:
