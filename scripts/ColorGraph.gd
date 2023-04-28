@@ -5,36 +5,37 @@ class_name ColorGraph
 var _brush_size
 var nodes = []
 var edges = []
+var area = 0
 
-func _init(brush_size):
-	print("initializing graph")
+func _init(width,height,brush_size):
 	_brush_size = brush_size
+	area = height * width
 
 func add_node(node):
+	if node == null: return
+	var count = nodes.size()
+	if not nodes.empty():
+		for i in range(count):
+			var exit_flag = false
+			var a = nodes[i]
+			var b = node
+			for k in a.border:
+				if exit_flag: break
+				for l in b.border:
+					var dist = k.distance_to(l)
+					if dist <= _brush_size:
+						var edge = [i,count]
+						edges.append(edge)
+						exit_flag = true
+						break
+	area -= node.area
 	nodes.append(node)
 
-func find_edges():
-	if nodes.size() >= 2:
-		for j in range(nodes.size()):
-			for i in range(j,nodes.size()):
-				if i!=j:
-					var exit_flag = false
-					var a = nodes[j]
-					var b = nodes[i]
-					if a != null and b != null:
-						for k in a["border"]:
-							if exit_flag: break
-							for l in b["border"]:
-								var dist = k.distance_to(l)
-								if dist <= _brush_size:
-									edges.append([a["color"],b["color"]])
-									exit_flag = true
-									break
-
 func check_edges():
+	if area <= 0:
+		return "complete_fill"
 	for edge in edges:
-		if edge[0]==edge[1]: return true
-		
-func clear():
-	nodes = []
-	edges = []
+		var a = nodes[edge[0]]
+		var b = nodes[edge[1]]
+		if a.color==b.color:
+			return "same_color"
