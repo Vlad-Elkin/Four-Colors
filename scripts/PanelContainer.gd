@@ -13,90 +13,28 @@ onready var P2C2 = $Player2/Color2
 onready var pencil = $Tools/Line
 onready var bucket = $Tools/Fill
 onready var paint = $Tools/Fill/Bucket/Paint
-onready var restart = $Tools/Restart
-enum PlayerQuery{
-	Player1 = 1,Player2 = 2
-}
-enum ColorQuery{
-	Color1,Color2
-}
-enum Tools{
-	Pencil, Bucket
-}
-var current_player = PlayerQuery.Player1
-var current_color = ColorQuery.Color1
-var current_tool = Tools.Pencil
-var blocking = false
 
 func _ready():
-	P1C1.connect("pressed",self,"handle",["Color",ColorQuery.Color1])
-	P1C2.connect("pressed",self,"handle",["Color",ColorQuery.Color2])
-	P2C1.connect("pressed",self,"handle",["Color",ColorQuery.Color1])
-	P2C2.connect("pressed",self,"handle",["Color",ColorQuery.Color2])
-	pencil.connect("pressed",self,"handle",["Tool",Tools.Pencil])
-	bucket.connect("pressed",self,"handle",["Tool",Tools.Bucket])
-	restart.connect("pressed",self,"handle",["Restart"])
-	popupRestart.connect("pressed",self,"handle",["Restart"])
+	P1C1.connect("pressed",self,"handle",["Color","COLOR_1"])
+	P1C2.connect("pressed",self,"handle",["Color","COLOR_2"])
+	P2C1.connect("pressed",self,"handle",["Color","COLOR_1"])
+	P2C2.connect("pressed",self,"handle",["Color","COLOR_2"])
+	pencil.connect("pressed",self,"handle",["Tool","PENCIL"])
+	bucket.connect("pressed",self,"handle",["Tool","BUCKET"])
 
 func handle(mode,value = null):
 	match mode:
-		"Color": current_color = value
-		"Tool": current_tool = value
-		"Change":
-			match current_player:
-				PlayerQuery.Player1:
-					current_player = PlayerQuery.Player2
-				PlayerQuery.Player2:
-					current_player = PlayerQuery.Player1
-		"Clear": CanvasPanel.clear()
-		"Restart": var _status = get_tree().reload_current_scene()
-
-func _input(event):
-	var mouse_pos = get_viewport().get_mouse_position()
-	var pos = mouse_pos - CanvasPanel.rect_global_position
-	if not blocking:
-		match current_tool:
-			Tools.Pencil:
-				#pressed
-				if event is InputEventScreenTouch and event.pressed:
-					CanvasPanel.pressed = true
-					CanvasPanel.use_pencil(pos)
-				#dragged
-				if event is InputEventScreenDrag:
-					CanvasPanel.use_pencil(pos)
-				#released
-				if event is InputEventScreenTouch and !event.pressed:
-					CanvasPanel.use_pencil(pos)
-					CanvasPanel.pressed = false
-					CanvasPanel.last_pos = null
-			Tools.Bucket:
-				#pressed
-				if event is InputEventScreenTouch and event.pressed:
-					current_tool = Tools.Pencil
-					match current_player:
-						PlayerQuery.Player1:
-							current_player = PlayerQuery.Player2
-						PlayerQuery.Player2:
-							current_player = PlayerQuery.Player1
-					var result = CanvasPanel.use_bucket(pos)
-					match result:
-						"same_color":
-							blocking = true
-							popup.visible = true
-							popupPlayer.text = "Игрок %d" % current_player
-						"complete_fill":
-							blocking = true
-							popup.visible = true
-							popupLabel.text = "Теорема"
-							popupPlayer.text = "Потверждена"
+		"Color": fsm.current_color = value
+		"Tool": fsm.current_tool = value
+		"Undo": emit_signal("undo")
 
 func _process(_delta):
-	var is_Player1 = current_player == PlayerQuery.Player1
-	var is_Player2 = current_player == PlayerQuery.Player2
-	var is_Color1 = current_color == ColorQuery.Color1
-	var is_Color2 = current_color == ColorQuery.Color2
-	var is_Bucket = current_tool == Tools.Bucket
-	var is_Pencil = current_tool == Tools.Pencil
+	var is_Player1 = fsm.current_player == "PLAYER_1"
+	var is_Player2 = fsm.current_player == "PLAYER_2"
+	var is_Color1 = fsm.current_color == "COLOR_1"
+	var is_Color2 = fsm.current_color == "COLOR_2"
+	var is_Bucket = fsm.current_tool == "BUCKET"
+	var is_Pencil = fsm.current_tool == "PENCIL"
 	P1C1.disabled = !is_Player1
 	P1C2.disabled = !is_Player1
 	P2C1.disabled = !is_Player2

@@ -6,6 +6,7 @@ var _brush_size
 var nodes = []
 var edges = []
 var area = 0
+var used_area = 0
 
 func _init(width,height,brush_size):
 	_brush_size = brush_size
@@ -28,11 +29,11 @@ func add_node(node):
 						edges.append(edge)
 						exit_flag = true
 						break
-	area -= node.area
+	used_area += node.area
 	nodes.append(node)
 
 func check_edges():
-	if area <= 0:
+	if area-used_area <= 0:
 		return "complete_fill"
 	for edge in edges:
 		var a = nodes[edge[0]]

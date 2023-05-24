@@ -78,17 +78,17 @@ func _find_borders(x,y,s):
 		s.append(Vector2(x,y))
 	elif get_pixel(x+1,y) == Color.black:
 		s.append(Vector2(x+1,y))
-		
+	
 	if not is_inside(x,y+1):
 		s.append(Vector2(x,y)) 
 	elif get_pixel(x,y+1) == Color.black: 
 		s.append(Vector2(x,y+1))
-		
+	
 	if not is_inside(x-1,y): 
 		s.append(Vector2(x,y))
 	elif get_pixel(x-1,y) == Color.black: 
 		s.append(Vector2(x-1,y))
-		
+	
 	if not is_inside(x,y-1): 
 		s.append(Vector2(x,y))
 	elif get_pixel(x,y-1) == Color.black: 
